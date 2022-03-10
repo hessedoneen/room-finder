@@ -81,7 +81,10 @@ function initMap() {
       const marker_bounds = new google.maps.LatLngBounds();
       marker_bounds.extend(room_marker.getPosition());
       marker_bounds.extend(user_marker.getPosition());
+
+      // map.setOptions({ maxZoom: 20 });
       map.fitBounds(marker_bounds);
+      // map.setOptions({ maxZoom: null });
     },
     onError: err =>
       alert(`Error: ${getPositionErrorMessage(err.code) || err.message}`)
