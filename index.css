@@ -10,6 +10,7 @@ body {
     text-align: center;
     background-color: #f0e7d3;
     color: #12455E;
+    font-family: 'Fredoka', sans-serif;
 }
 
 img {
@@ -18,6 +19,10 @@ img {
 
 h1 {
     font-size: 2.75em;
+}
+
+#magnify {
+    color:#12455E;
 }
 
 .search-box {
@@ -42,7 +47,7 @@ h1 {
     height: 40px;
     width: 150%;
     background-color: #be983f;
-    color: #7097a8;
+    color: #12455E;
     outline: none;
 }
 
