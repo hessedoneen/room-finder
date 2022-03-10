@@ -9,7 +9,7 @@ body {
     align-items: center;
     text-align: center;
     background-color: #f0e7d3;
-    color: #00354e;
+    color: #12455E;
 }
 
 img {
@@ -25,13 +25,13 @@ h1 {
     flex-direction: row;
     justify-content: left;
     align-items: baseline;
-    color: #35575c;
+    color: #7097a8;
     width: 100%;
     border: none;
     border-radius: 5px;
     height: 40px;
     width: 120%;
-    background-color: #d6be87;
+    background-color: #be983f;
     text-align: left;
 }
 
@@ -41,7 +41,8 @@ h1 {
     fill: none;
     height: 40px;
     width: 150%;
-    background-color: #d6be87;
+    background-color: #be983f;
+    color: #7097a8;
     outline: none;
 }
 
