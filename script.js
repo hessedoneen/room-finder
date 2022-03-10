@@ -1,52 +1,90 @@
-function getBuilding(query) {
+function parseBuildingName(query) {
   return query.split(" ")[0];
 }
 
-function getRoomNumber(query) {
+function parseRoomNumber(query) {
   return query.split(" ")[1];
 }
 
-function getCoordinates(building, room_num) {
+function getRoomCoordinates() {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const query = urlParams.get('query');
+
+  const building = parseBuildingName(query);
+  const room_num = parseRoomNumber(query);
   const room_data = JSON.parse(localStorage.getItem('rooms_data'))[room_num];
 
   const coordinates = {
     'lat': room_data['latitude'],
     'long': room_data['longitude']
-  }
+  };
 
   return coordinates;
 }
 
+// New function to track user's location.
+const trackLocation = ({ onSuccess, onError = () => { } }) => {
+  if ('geolocation' in navigator === false) {
+    return onError(new Error('Geolocation is not supported by your browser.'));
+  }
+
+  // Use watchPosition instead.
+  return navigator.geolocation.watchPosition(onSuccess, onError, {
+    enableHighAccuracy: true,
+    maximumAge: 10000
+  });
+};
+
 // Initialize map with desired location pinpointed
 function initMap() {
-  // Get room_num from URL
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const query = urlParams.get('query');
-  const building = getBuilding(query);
-  const room_num = getRoomNumber(query);
-
   // Get room coordinates
-  const coordinates = getCoordinates(building, room_num)
-  const found_lat = coordinates['lat'];
-  const found_long = coordinates['long'];
+  const room_coordinates = getRoomCoordinates();
+  const room_lat = parseFloat(room_coordinates['lat']);
+  const room_long = parseFloat(room_coordinates['long']);
 
-  // Init map with location 
-  const latitude = parseFloat(found_lat);
-  const longitude = parseFloat(found_long);
-
-  const new_loc = { lat: latitude, lng: longitude };
+  // Init map with room location
+  const room_loc = { lat: room_lat, lng: room_long };
   // The map, centered at given location
   const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 20,
-    center: new_loc,
+    center: room_loc,
     mapId: '1d764dc13899b61e'
   });
   console.log(map.center);
-  // The marker, positioned at GG Brown
-  const marker = new google.maps.Marker({
-    position: new_loc,
+
+  // The room marker, positioned at GG Brown
+  const room_marker = new google.maps.Marker({
+    position: room_loc,
     map: map,
+    title: 'target room'
+  });
+
+  // The user marker, positioned at GG Brown
+  const user_marker = new google.maps.Marker({
+    position: room_loc,
+    map: map,
+    icon: {
+      path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+      scale: 5,
+      fillColor: "#be983f",
+      fillOpacity: .70,
+      strokeColor: "#12455E",
+      strokeOpacity: 1,
+      strokeWeight: 2
+    },
+  });
+
+  // Function to continuously update the user_marker
+  trackLocation({
+    onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
+      user_marker.setPosition({ lat, lng });
+      const marker_bounds = new google.maps.LatLngBounds();
+      marker_bounds.extend(room_marker.getPosition());
+      marker_bounds.extend(user_marker.getPosition());
+      map.fitBounds(marker_bounds);
+    },
+    onError: err =>
+      alert(`Error: ${getPositionErrorMessage(err.code) || err.message}`)
   });
 
   const bounds = new google.maps.LatLngBounds(
@@ -132,7 +170,6 @@ function initMap() {
 
   // onClick return back to search screen (index.html)
   toggleButton.addEventListener("click", () => {
-    localStorage.clear();
     window.location.replace('./index.html');
 
   });
