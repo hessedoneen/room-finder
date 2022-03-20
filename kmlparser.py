@@ -31,6 +31,7 @@ class ZMLParser(HTMLParser):
                 self._coordinates_found = False
                 self._placemark_found = False
 
+# Run via: python3 kmlparser.py kml-file-name > kml-file-name.csv
 fin = open('./' + sys.argv[1])
 
 data = fin.read()

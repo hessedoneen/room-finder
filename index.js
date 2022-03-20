@@ -27,7 +27,7 @@ function readRoomsIntoLocalStorage() {
         });
     };
 
-    var FileURL = "roominfo.csv"
+    var FileURL = "GGBL.csv"
     GetFileObjectFromURL(FileURL, function (fileObject) {
         console.log(fileObject);
         // Read the fileObject
