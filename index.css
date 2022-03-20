@@ -54,3 +54,9 @@ h1 {
 .search-icon {
     padding: 10px;
 }
+
+a {
+    color: #12455E;
+    text-align: center;
+    display: inline-block;
+}
