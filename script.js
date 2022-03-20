@@ -96,7 +96,7 @@ function initMap() {
   );
 
   /* IMAGE OVERLAY */
-  let image = 'GGB_2nd_floor_pngfile_squish2.png';
+  let image = 'GGBL_F2.png';
 
   /**
    * The custom USGSOverlay object contains the USGS image,
