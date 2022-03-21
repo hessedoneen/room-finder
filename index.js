@@ -23,7 +23,7 @@ function readRoomsIntoLocalStorage() {
 
     var GetFileObjectFromURL = function (filePathOrUrl, convertBlob) {
         GetFileBlobUsingURL(filePathOrUrl, function (blob) {
-            convertBlob(blobToFile(blob, 'roominfo.csv'));
+            convertBlob(blobToFile(blob, 'GGBL.csv'));
         });
     };
 
