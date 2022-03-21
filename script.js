@@ -102,14 +102,23 @@ function initMap() {
   });
 
   // bounds for floor1
-  const bounds = new google.maps.LatLngBounds(
+  const bounds_1 = new google.maps.LatLngBounds(
+    new google.maps.LatLng(42.29273958450291, -83.71516984441227),
+    new google.maps.LatLng(42.293854432381664, -83.71278616217957)
+  );
+
+  // bounds for floor2
+  const bounds_2 = new google.maps.LatLngBounds(
     new google.maps.LatLng(42.29279758926315, -83.71516984441227),
     new google.maps.LatLng(42.29405892225341, -83.71278616217957)
   );
 
+  // Array of all bounds 
+  const bounds_arr = [bounds_1, bounds_2];
+
+
   /* IMAGE OVERLAY -- choose correct floor*/
   const floor_num = localStorage.getItem('room_num')[0]
-  console.log(floor_num)
   let image = `GGBL_F${floor_num}.png`;
 
   /**
@@ -120,9 +129,9 @@ function initMap() {
     bounds;
     image;
     div;
-    constructor(bounds, image) {
+    constructor(bounds_arr, image) {
       super();
-      this.bounds = bounds;
+      this.bounds = bounds_arr[floor_num-1];
       this.image = image;
     }
 
@@ -174,7 +183,7 @@ function initMap() {
       }
     }
   }
-  const overlay = new USGSOverlay(bounds, image);
+  const overlay = new USGSOverlay(bounds_arr, image);
 
   overlay.setMap(map);
 
