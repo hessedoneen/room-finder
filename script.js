@@ -113,8 +113,14 @@ function initMap() {
     new google.maps.LatLng(42.29405892225341, -83.71278616217957)
   );
 
+  // bounds for floor3
+  const bounds_3 = new google.maps.LatLngBounds(
+    new google.maps.LatLng(42.292853987978575, -83.71516984441227),
+    new google.maps.LatLng(42.294079346431595, -83.71278616217957)
+  );
+
   // Array of all bounds 
-  const bounds_arr = [bounds_1, bounds_2];
+  const bounds_arr = [bounds_1, bounds_2, bounds_3];
 
 
   /* IMAGE OVERLAY -- choose correct floor*/
