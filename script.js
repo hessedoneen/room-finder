@@ -13,9 +13,18 @@ function getRoomCoordinates() {
 
   const building = parseBuildingName(query);
   const room_num = parseRoomNumber(query);
-  const room_data = JSON.parse(localStorage.getItem('rooms_data'))[room_num];
-  localStorage.setItem("building", building)
-  localStorage.setItem("room_num", room_num)
+
+  // Get room data (error check whether the room exists)
+  const room_data_all = JSON.parse(localStorage.getItem('rooms_data'));
+  if (!room_data_all.hasOwnProperty(room_num)) {
+    alert("You entered an invalid room number");
+    window.location.href = "index.html";
+    return;
+  } 
+  const room_data = room_data_all[room_num];
+
+  localStorage.setItem("building", building);
+  localStorage.setItem("room_num", room_num);
 
   const coordinates = {
     'lat': room_data['latitude'],
@@ -97,8 +106,7 @@ function initMap() {
     new google.maps.LatLng(42.29405892225341, -83.71278616217957)
   );
 
-  /* IMAGE OVERLAY */
-  console.log("HELLLO")
+  /* IMAGE OVERLAY -- choose correct floor*/
   const floor_num = localStorage.getItem('room_num')[0]
   console.log(floor_num)
   let image = `GGBL_F${floor_num}.png`;
