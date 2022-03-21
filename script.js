@@ -14,6 +14,8 @@ function getRoomCoordinates() {
   const building = parseBuildingName(query);
   const room_num = parseRoomNumber(query);
   const room_data = JSON.parse(localStorage.getItem('rooms_data'))[room_num];
+  localStorage.setItem("building", building)
+  localStorage.setItem("room_num", room_num)
 
   const coordinates = {
     'lat': room_data['latitude'],
@@ -96,7 +98,10 @@ function initMap() {
   );
 
   /* IMAGE OVERLAY */
-  let image = 'GGBL_F2.png';
+  console.log("HELLLO")
+  const floor_num = localStorage.getItem('room_num')[0]
+  console.log(floor_num)
+  let image = `GGBL_F${floor_num}.png`;
 
   /**
    * The custom USGSOverlay object contains the USGS image,
