@@ -101,6 +101,7 @@ function initMap() {
       alert(`Error: ${getPositionErrorMessage(err.code) || err.message}`)
   });
 
+  // bounds for floor1
   const bounds = new google.maps.LatLngBounds(
     new google.maps.LatLng(42.29279758926315, -83.71516984441227),
     new google.maps.LatLng(42.29405892225341, -83.71278616217957)
