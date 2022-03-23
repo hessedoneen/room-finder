@@ -85,17 +85,22 @@ function initMap() {
     },
   });
 
+  const fit_zoom = true;
   // Function to continuously update the user_marker
   trackLocation({
     onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
       user_marker.setPosition({ lat, lng });
-      const marker_bounds = new google.maps.LatLngBounds();
-      marker_bounds.extend(room_marker.getPosition());
-      marker_bounds.extend(user_marker.getPosition());
+      if (fit_zoom) {
+        const marker_bounds = new google.maps.LatLngBounds();
+        console.log(room_marker.getPosition())
+        marker_bounds.extend(room_marker.getPosition());
+        marker_bounds.extend(user_marker.getPosition());
 
-      // map.setOptions({ maxZoom: 20 });
-      map.fitBounds(marker_bounds);
-      // map.setOptions({ maxZoom: null });
+        // map.setOptions({ maxZoom: 20 });
+        map.fitBounds(marker_bounds);
+        // map.setOptions({ maxZoom: null });
+        fit_zoom = false;
+      }
     },
     onError: err =>
       alert(`Error: ${getPositionErrorMessage(err.code) || err.message}`)
