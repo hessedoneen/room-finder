@@ -85,7 +85,7 @@ function initMap() {
     },
   });
 
-  const fit_zoom = true;
+  let fit_zoom = true;
   // Function to continuously update the user_marker
   trackLocation({
     onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
