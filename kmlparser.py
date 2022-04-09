@@ -1,6 +1,7 @@
 
 #!/usr/bin/python
 # Nina, Amber, Alex, Kyle
+# Run via: python3 kmlparser.py kml-file-name > kml-file-name.csv
 import sys
 from html.parser import HTMLParser
 
@@ -10,7 +11,7 @@ class ZMLParser(HTMLParser):
         self._placemark_found = False
         self._name_found = False
         self._coordinates_found = False
-        print("room_number,latitude,longitude")
+        print("room_name,room_number,latitude,longitude")
 
     def handle_starttag(self, tag, attrs):
         if tag == 'placemark':
@@ -31,7 +32,6 @@ class ZMLParser(HTMLParser):
                 self._coordinates_found = False
                 self._placemark_found = False
 
-# Run via: python3 kmlparser.py kml-file-name > kml-file-name.csv
 fin = open('./' + sys.argv[1])
 
 data = fin.read()

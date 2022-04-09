@@ -20,18 +20,45 @@ function getRoomCoordinates() {
     alert("You entered an invalid room number");
     window.location.href = "index.html";
     return;
-  } 
+  }
   const room_data = room_data_all[room_num];
 
   localStorage.setItem("building", building);
   localStorage.setItem("room_num", room_num);
 
   const coordinates = {
-    'lat': room_data['latitude'],
-    'long': room_data['longitude']
+    'latitude': room_data['latitude'],
+    'longitude': room_data['longitude']
   };
 
   return coordinates;
+}
+
+function filterRoomDataByKeyword(keyword) {
+  // Get all room data
+  const room_data_all = JSON.parse(localStorage.getItem('rooms_data'));
+
+  // Map this room data to only those which are toilets
+  const data = [];
+  for (let room in room_data_all) {
+    if (room.includes(keyword)) {
+      const room_data = room_data_all[room];
+      room_data['room_number'] = room;
+      data.push(room_data);
+    }
+  }
+
+  return data;
+}
+
+function getRestroomCoordinates() {
+  // Map this room data to only those which are toilets
+  return filterRoomDataByKeyword('T');
+}
+
+function getElevatorCoordinates() {
+  // Map this room data to only those which are elevators
+  return filterRoomDataByKeyword('E');
 }
 
 // New function to track user's location.
@@ -51,8 +78,9 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
 function initMap() {
   // Get room coordinates
   const room_coordinates = getRoomCoordinates();
-  const room_lat = parseFloat(room_coordinates['lat']);
-  const room_long = parseFloat(room_coordinates['long']);
+  const room_lat = parseFloat(room_coordinates['latitude']);
+  const room_long = parseFloat(room_coordinates['longitude']);
+  console.log(getRestroomCoordinates());
 
   // Init map with room location
   const room_loc = { lat: room_lat, lng: room_long };
@@ -82,7 +110,21 @@ function initMap() {
       strokeOpacity: 1,
       strokeWeight: 2
     },
+    title: 'user location'
   });
+
+  // TODO: Why doesn't this plot any restrooms?????
+  let restrooms = [];
+  for (let restroom in getRestroomCoordinates()) {
+    let restroom_coors = {
+      lat: parseFloat(restroom['latitude']),
+      lng: parseFloat(restroom['longitude'])
+    }
+    restrooms.push(new google.maps.Marker({
+      position: restroom_coors,
+      map: map
+    }));
+  }
 
   /* IMAGE OVERLAY -- choose correct floor*/
   const floor_num = localStorage.getItem('room_num')[0]

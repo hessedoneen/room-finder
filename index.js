@@ -29,7 +29,6 @@ function readRoomsIntoLocalStorage() {
 
     var FileURL = "GGBL.csv"
     GetFileObjectFromURL(FileURL, function (fileObject) {
-        console.log(fileObject);
         // Read the fileObject
         reader.readAsText(fileObject);
     });
@@ -38,7 +37,6 @@ function readRoomsIntoLocalStorage() {
     const reader = new FileReader();
     reader.onload = function (e) {
         const csvText = e.target.result;
-        console.log(csvText);
 
         // Set all room data in localstorage
         localStorage.setItem("rooms_data", csvToJSONString(csvText));
@@ -59,9 +57,6 @@ function csvToJSONString(csvString) {
         }
         csvObject[line[0]] = attributes;
     }
-
-    const stringguy = JSON.stringify(csvObject);
-    const backtoobject = JSON.parse(stringguy);
 
     return JSON.stringify(csvObject);
 }
