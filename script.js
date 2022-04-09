@@ -61,7 +61,6 @@ function initMap() {
     center: room_loc,
     mapId: '1d764dc13899b61e'
   });
-  console.log(map.center);
 
   // The room marker, positioned at GG Brown
   const room_marker = new google.maps.Marker({
@@ -85,52 +84,52 @@ function initMap() {
     },
   });
 
-  let fit_zoom = true;
-  // Function to continuously update the user_marker
-  trackLocation({
-    onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
-      user_marker.setPosition({ lat, lng });
-      if (fit_zoom) {
-        const marker_bounds = new google.maps.LatLngBounds();
-        console.log(room_marker.getPosition())
-        marker_bounds.extend(room_marker.getPosition());
-        marker_bounds.extend(user_marker.getPosition());
-
-        // map.setOptions({ maxZoom: 20 });
-        map.fitBounds(marker_bounds);
-        // map.setOptions({ maxZoom: null });
-        fit_zoom = false;
-      }
-    },
-    onError: err =>
-      alert(`Error: ${getPositionErrorMessage(err.code) || err.message}`)
-  });
+  /* IMAGE OVERLAY -- choose correct floor*/
+  const floor_num = localStorage.getItem('room_num')[0]
+  let image = `GGBL_F${floor_num}.png`;
 
   // bounds for floor1
-  const bounds_1 = new google.maps.LatLngBounds(
+  const bounds_f1 = new google.maps.LatLngBounds(
     new google.maps.LatLng(42.29273958450291, -83.71516984441227),
     new google.maps.LatLng(42.293854432381664, -83.71278616217957)
   );
 
   // bounds for floor2
-  const bounds_2 = new google.maps.LatLngBounds(
+  const bounds_f2 = new google.maps.LatLngBounds(
     new google.maps.LatLng(42.29279758926315, -83.71516984441227),
     new google.maps.LatLng(42.29405892225341, -83.71278616217957)
   );
 
   // bounds for floor3
-  const bounds_3 = new google.maps.LatLngBounds(
+  const bounds_f3 = new google.maps.LatLngBounds(
     new google.maps.LatLng(42.292853987978575, -83.71516984441227),
     new google.maps.LatLng(42.294079346431595, -83.71278616217957)
   );
 
   // Array of all bounds 
-  const bounds_arr = [bounds_1, bounds_2, bounds_3];
+  const bounds_arr = [bounds_f1, bounds_f2, bounds_f3];
+  const map_bounds =  bounds_arr[floor_num-1];
 
+  // Function to continuously update the user_marker
+  let fit_zoom = true;
+  trackLocation({
+    onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
+      user_marker.setPosition({ lat, lng });
+      if (fit_zoom) {
+        const marker_bounds = new google.maps.LatLngBounds();
+        marker_bounds.extend(room_marker.getPosition());
+        marker_bounds.extend(user_marker.getPosition());
 
-  /* IMAGE OVERLAY -- choose correct floor*/
-  const floor_num = localStorage.getItem('room_num')[0]
-  let image = `GGBL_F${floor_num}.png`;
+        map.fitBounds(marker_bounds);
+        fit_zoom = false;
+      }
+    },
+    onError: () => {
+      alert(`Location must be enabled for navigation experience`);
+      user_marker.setVisible(false);
+      map.fitBounds(map_bounds);
+    }
+  });
 
   /**
    * The custom USGSOverlay object contains the USGS image,
@@ -142,7 +141,7 @@ function initMap() {
     div;
     constructor(bounds_arr, image) {
       super();
-      this.bounds = bounds_arr[floor_num-1];
+      this.bounds = map_bounds;
       this.image = image;
     }
 
@@ -200,15 +199,12 @@ function initMap() {
 
   const toggleButton = document.createElement("button");
 
-
   toggleButton.textContent = "Search";
   toggleButton.classList.add("custom-map-control-button");
-
 
   // onClick return back to search screen (index.html)
   toggleButton.addEventListener("click", () => {
     window.location.replace('./index.html');
-
   });
 
   map.controls[google.maps.ControlPosition.TOP_RIGHT].push(toggleButton);
