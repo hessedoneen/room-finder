@@ -114,16 +114,30 @@ function initMap() {
   });
 
   // TODO: Why doesn't this plot any restrooms?????
-  let restrooms = [];
-  for (let restroom in getRestroomCoordinates()) {
+  // const restrooms = getRestroomCoordinates();
+  // const room_coor = {
+  //   lat: parseFloat(restrooms[0]['latitude']),
+  //   lng: parseFloat(restrooms[0]['longitude'])
+  // }
+  // const new_restroom = new google.maps.Marker({
+  //   position: room_coor,
+  //   map: map,
+  //   title: 'restroom'
+  // })
+  const restrooms = getRestroomCoordinates();
+  console.log(restrooms)
+  for (let restroom in Object.keys(restrooms)) {
     let restroom_coors = {
       lat: parseFloat(restroom['latitude']),
       lng: parseFloat(restroom['longitude'])
     }
-    restrooms.push(new google.maps.Marker({
+    console.log(restroom_coors)
+    console.log(restroom)
+    const new_rest = new google.maps.Marker({
       position: restroom_coors,
-      map: map
-    }));
+      map: map,
+      title: restroom['room_number']
+    });
   }
 
   /* IMAGE OVERLAY -- choose correct floor*/
