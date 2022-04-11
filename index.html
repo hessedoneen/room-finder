@@ -14,7 +14,6 @@
 
   <!-- JavaScript -->
   <script src="https://kit.fontawesome.com/0c1cab69da.js" crossorigin="anonymous"></script>
-  <script src="index.js"></script>
 
   <!-- Favicon  -->
   <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
@@ -30,8 +29,10 @@
     <div class="search-icon">
       <i class="fa-solid fa-magnifying-glass fa-flip-horizontal" id="magnify"></i>
     </div>
-    <form action="./map.html" class="search-form">
-      <input type="text" placeholder="Search (e.g. GGBL 2000)" class="search-bar" name="query">
+    <form autocomplete="off" action="./map.html" class="search-form">
+      <div class="autocomplete">
+      <input id="myInput" type="text" placeholder="Search (e.g. GGBL 2000)" class="search-bar" name="query">
+      </div>
     </form>
   </div>
   <p><a href="https://drive.google.com/file/d/1lMtnWOBF3b5ixpPLXEa33uf5j4_FwfrG/view?usp=sharing">demo</a></p>
@@ -39,3 +40,5 @@
 </body>
 
 </html>
+
+<script src="index.js"></script>
