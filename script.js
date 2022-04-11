@@ -140,41 +140,17 @@ function initMap() {
   }
 
   function markElevators(floor_num) {
-    icon = {
-      path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-      scale: 5,
-      fillColor: "#be983f",
-      fillOpacity: .70,
-      strokeColor: "#12455E",
-      strokeOpacity: 1,
-      strokeWeight: 2
-    }
+    icon = "./elevator_icon.png"
     return mark_all_rooms(getElevatorCoordinates().filter(room => room['room_number'][0] === floor_num), icon)
   }
 
   function markStairways(floor_num) {
-    icon = {
-      path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-      scale: 5,
-      fillColor: "#be983f",
-      fillOpacity: .70,
-      strokeColor: "#12455E",
-      strokeOpacity: 1,
-      strokeWeight: 2
-    }
+    icon = "./stairway_icon.png"
     return mark_all_rooms(getStairwayCoordinates().filter(room => room['room_number'][0] === floor_num), icon)
   }
 
   function markRestrooms(floor_num) {
-    icon = {
-      path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-      scale: 5,
-      fillColor: "#be983f",
-      fillOpacity: .70,
-      strokeColor: "#12455E",
-      strokeOpacity: 1,
-      strokeWeight: 2
-    }
+    icon = "./restroom_icon.png"
     return mark_all_rooms(getRestroomCoordinates().filter(room => room['room_number'][0] === floor_num), icon)
   }
 
@@ -323,7 +299,6 @@ function initMap() {
 
   // onClick to show or unshow restrooms
   restroomButton.addEventListener("click", () => {
-    console.log(restroomToggle);
     if (!restroomToggle) {
       // Set all restroom markers visible
       setMapOnAll(restrooms, true);
