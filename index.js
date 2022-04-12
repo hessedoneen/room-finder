@@ -40,10 +40,6 @@ function readRoomsIntoLocalStorage() {
 
         // Set all room data in localstorage
         localStorage.setItem("rooms_data", csvToJSONString(csvText));
-        // for (var i = 0; i < csvToJSONString(csvText).length; i++){
-        //     opts.push("GGBL ", csvToJSONString(csvText)[i]['room_number']);
-        // }
-
     };
 }
 
@@ -173,3 +169,14 @@ if (localStorage.getItem("rooms_data") !== null) {
 /*initiate the autocomplete function on the "myInput" element, and pass 
 along the opts array as possible autocomplete values:*/
 autocomplete(document.getElementById("myInput"), opts);
+
+
+/* Set the width of the sidebar to 250px (show it) */
+function openNav() {
+    document.getElementById("mySidepanel").style.width = "200px";
+}
+  
+/* Set the width of the sidebar to 0 (hide it) */
+function closeNav() {
+    document.getElementById("mySidepanel").style.width = "0";
+}
