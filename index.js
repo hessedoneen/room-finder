@@ -2,8 +2,6 @@ if (localStorage.getItem("rooms_data") === null) {
     readRoomsIntoLocalStorage();
 }
 
-// let opts = [];
-
 // Find coordinates in roominfo.csv
 function readRoomsIntoLocalStorage() {
     // Get and read csv file
