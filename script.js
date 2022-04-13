@@ -61,6 +61,11 @@ function getElevatorCoordinates() {
   return filterRoomDataByKeyword('E');
 }
 
+function getStairwayCoordinates() {
+  // Map this room data to only those which are elevators
+  return filterRoomDataByKeyword('S');
+}
+
 // New function to track user's location.
 const trackLocation = ({ onSuccess, onError = () => { } }) => {
   if ('geolocation' in navigator === false) {
@@ -99,7 +104,7 @@ function initMap() {
 
   // The user marker, positioned at GG Brown
   const user_marker = new google.maps.Marker({
-    position: room_loc,
+    position: room_loc, // temp val
     map: map,
     icon: {
       path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
@@ -113,22 +118,50 @@ function initMap() {
     title: 'user location'
   });
 
-  // TODO: Why doesn't this plot any restrooms?????
-  let restrooms = [];
-  for (let restroom in getRestroomCoordinates()) {
-    let restroom_coors = {
-      lat: parseFloat(restroom['latitude']),
-      lng: parseFloat(restroom['longitude'])
+  // takes in an array of lat,lng,room_number objects, and an icon
+  // maps all these objects on the map under the icon
+  function mark_all_rooms(room_info, icon) {
+    markers = [];
+    for (let i = 0; i < room_info.length; i++){
+      let room_coor = {
+        lat: parseFloat(room_info[i]['latitude']),
+        lng: parseFloat(room_info[i]['longitude'])
+      }
+      new_marker = new google.maps.Marker({
+        position: room_coor,
+        map: map,
+        title: room_info[i]['room_number'],
+        icon: icon
+      });
+      new_marker.setVisible(false);
+      markers.push(new_marker);
     }
-    restrooms.push(new google.maps.Marker({
-      position: restroom_coors,
-      map: map
-    }));
+    return markers;
+  }
+
+  function markElevators(floor_num) {
+    icon = "./elevator_icon.png"
+    return mark_all_rooms(getElevatorCoordinates().filter(room => room['room_number'][0] === floor_num), icon)
+  }
+
+  function markStairways(floor_num) {
+    icon = "./stairway_icon.png"
+    return mark_all_rooms(getStairwayCoordinates().filter(room => room['room_number'][0] === floor_num), icon)
+  }
+
+  function markRestrooms(floor_num) {
+    icon = "./restroom_icon.png"
+    return mark_all_rooms(getRestroomCoordinates().filter(room => room['room_number'][0] === floor_num), icon)
   }
 
   /* IMAGE OVERLAY -- choose correct floor*/
   const floor_num = localStorage.getItem('room_num')[0]
   let image = `GGBL_F${floor_num}.png`;
+
+  // filled with google maps markers
+  const restrooms = markRestrooms(floor_num); // arr with all markers of restrooms
+  const elevators = markElevators(floor_num);
+  const stairways = markStairways(floor_num);
 
   // bounds for floor1
   const bounds_f1 = new google.maps.LatLngBounds(
@@ -249,5 +282,79 @@ function initMap() {
     window.location.replace('./index.html');
   });
 
+  // sets the map on all markers in the array to be visible or not
+  function setMapOnAll(rooms_arr, visibility) {
+    for (let i = 0; i < rooms_arr.length; i++) {
+      rooms_arr[i].setVisible(visibility);
+
+    }
+  } 
+
+  // marking restrooms
+  const restroomButton = document.createElement("button");
+  let restroomToggle = false;
+
+  restroomButton.textContent = "Restrooms";
+  restroomButton.classList.add("custom-map-control-button");
+
+  // onClick to show or unshow restrooms
+  restroomButton.addEventListener("click", () => {
+    if (!restroomToggle) {
+      // Set all restroom markers visible
+      setMapOnAll(restrooms, true);
+      restroomToggle = true;
+    } else {
+      // Remove all restroom markers (but keep in array)
+      setMapOnAll(restrooms, false);
+      restroomToggle = false;
+    }
+  });
+
+  // marking elevators
+  const elevatorButton = document.createElement("button");
+  let elevatorToggle = false;
+
+  elevatorButton.textContent = "Elevators";
+  elevatorButton.classList.add("custom-map-control-button");
+
+  // onClick to show or unshow elevators
+  elevatorButton.addEventListener("click", () => {
+    console.log(elevatorToggle);
+    if (!elevatorToggle) {
+      // Set all elevator markers visible
+      setMapOnAll(elevators, true);
+      elevatorToggle = true;
+    } else {
+      // Remove all elevator markers (but keep in array)
+      setMapOnAll(elevators, false);
+      elevatorToggle = false;
+    }
+  });
+
+  // marking stairways
+  const stairwayButton = document.createElement("button");
+  let stairwayToggle = false;
+
+  stairwayButton.textContent = "Stairways";
+  stairwayButton.classList.add("custom-map-control-button");
+
+  // onClick to show or unshow stairways
+  stairwayButton.addEventListener("click", () => {
+    console.log(restroomToggle);
+    if (!stairwayToggle) {
+      // Set all restroom markers visible
+      setMapOnAll(stairways, true);
+      stairwayToggle = true;
+    } else {
+      // Remove all restroom markers (but keep in array)
+      setMapOnAll(stairways, false);
+      stairwayToggle = false;
+    }
+  });
+
+
   map.controls[google.maps.ControlPosition.TOP_RIGHT].push(toggleButton);
+  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(restroomButton);
+  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(elevatorButton);
+  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(stairwayButton);
 }
