@@ -85,10 +85,25 @@ function initMap() {
   const room_coordinates = getRoomCoordinates();
   const room_lat = parseFloat(room_coordinates['latitude']);
   const room_long = parseFloat(room_coordinates['longitude']);
-  console.log(getRestroomCoordinates());
-
-  // Init map with room location
+  // room loc is center and starting point
   const room_loc = { lat: room_lat, lng: room_long };
+
+  function createMarker(pos, title, icon=null) {
+    var marker = new google.maps.Marker({
+      position: pos,
+      map: map,
+      title: title
+    })
+    if (icon !== null) {
+      marker.setIcon(icon)
+    }
+    google.maps.event.addListener(marker, 'click', function() {
+      map.setZoom(21);
+      map.setCenter(marker.getPosition());
+    })
+    return marker;
+  }
+
   // The map, centered at given location
   const map = new google.maps.Map(document.getElementById("map"), {
     center: room_loc,
@@ -96,26 +111,17 @@ function initMap() {
   });
 
   // The room marker, positioned at GG Brown
-  const room_marker = new google.maps.Marker({
-    position: room_loc,
-    map: map,
-    title: 'target room'
-  });
+  const room_marker = createMarker(room_loc, 'target room');
 
   // The user marker, positioned at GG Brown
-  const user_marker = new google.maps.Marker({
-    position: room_loc, // temp val
-    map: map,
-    icon: {
-      path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-      scale: 5,
-      fillColor: "#be983f",
-      fillOpacity: .70,
-      strokeColor: "#12455E",
-      strokeOpacity: 1,
-      strokeWeight: 2
-    },
-    title: 'user location'
+  const user_marker = createMarker(room_loc, 'user location', {
+    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+    scale: 5,
+    fillColor: "#be983f",
+    fillOpacity: .70,
+    strokeColor: "#12455E",
+    strokeOpacity: 1,
+    strokeWeight: 2
   });
 
   // takes in an array of lat,lng,room_number objects, and an icon
@@ -127,29 +133,24 @@ function initMap() {
         lat: parseFloat(room_info[i]['latitude']),
         lng: parseFloat(room_info[i]['longitude'])
       }
-      new_marker = new google.maps.Marker({
-        position: room_coor,
-        map: map,
-        title: room_info[i]['room_number'],
-        icon: icon
-      });
+      new_marker = createMarker(room_coor,room_info[i]['room_number'],icon);
       new_marker.setVisible(false);
       markers.push(new_marker);
     }
     return markers;
   }
 
-  function markElevators(floor_num) {
+  function mark_elevators(floor_num) {
     icon = "./elevator_icon.png"
     return mark_all_rooms(getElevatorCoordinates().filter(room => room['room_number'][0] === floor_num), icon)
   }
 
-  function markStairways(floor_num) {
+  function mark_stairways(floor_num) {
     icon = "./stairway_icon.png"
     return mark_all_rooms(getStairwayCoordinates().filter(room => room['room_number'][0] === floor_num), icon)
   }
 
-  function markRestrooms(floor_num) {
+  function mark_restrooms(floor_num) {
     icon = "./restroom_icon.png"
     return mark_all_rooms(getRestroomCoordinates().filter(room => room['room_number'][0] === floor_num), icon)
   }
@@ -159,9 +160,9 @@ function initMap() {
   let image = `GGBL_F${floor_num}.png`;
 
   // filled with google maps markers
-  const restrooms = markRestrooms(floor_num); // arr with all markers of restrooms
-  const elevators = markElevators(floor_num);
-  const stairways = markStairways(floor_num);
+  const restrooms = mark_restrooms(floor_num); // arr with all markers of restrooms
+  const elevators = mark_elevators(floor_num);
+  const stairways = mark_stairways(floor_num);
 
   // bounds for floor1
   const bounds_f1 = new google.maps.LatLngBounds(
