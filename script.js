@@ -83,14 +83,13 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
 function initMap() {
   // Get room coordinates
   const room_coordinates = getRoomCoordinates();
-  console.log("lat", room_coordinates['latitude']);
-  console.log("lng", room_coordinates['latitude']);
   const room_lat = parseFloat(room_coordinates['latitude']);
   const room_long = parseFloat(room_coordinates['longitude']);
   // room loc is center and starting point
   const room_loc = { lat: room_lat, lng: room_long };
 
   function createMarker(pos, title, icon=null) {
+    console.log("position", pos);
     var marker = new google.maps.Marker({
       position: pos,
       map: map,
@@ -101,6 +100,7 @@ function initMap() {
     }
     google.maps.event.addListener(marker, 'click', function() {
       map.setZoom(21);
+      map.setCenter(marker.getPosition());
     })
     return marker;
   }
@@ -113,7 +113,6 @@ function initMap() {
 
   // The room marker, positioned at GG Brown
   const room_marker = createMarker(room_loc, 'target room');
-  map.setCenter(room_marker.getPosition());
 
   // The user marker, positioned at GG Brown
   const user_marker = createMarker(room_loc, 'user location', {
