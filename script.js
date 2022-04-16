@@ -131,6 +131,7 @@ function initMap() {
   function mark_all_rooms(room_info, icon) {
     markers = [];
     for (let i = 0; i < room_info.length; i++){
+      console.log("room info", room_info[i]);
       let room_coor = {
         lat: parseFloat(room_info[i]['latitude']),
         lng: parseFloat(room_info[i]['longitude'])
