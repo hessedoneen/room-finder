@@ -189,7 +189,7 @@ function initMap() {
   // Function to continuously update the user_marker
   let fit_zoom = true;
   trackLocation({
-    onSuccess: ({ coords: { lat: lat, lng: lng } }) => { //heading:hdng
+    onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => { //heading:hdng
       user_marker.setPosition({ lat, lng });
 
       // //Set icon to face the correct direction
