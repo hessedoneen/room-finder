@@ -107,7 +107,9 @@ function initMap() {
   // The map, centered at given location
   const map = new google.maps.Map(document.getElementById("map"), {
     center: room_loc,
-    mapId: '1d764dc13899b61e'
+    mapId: '1d764dc13899b61e',
+    streetViewControl: false,
+    mapTypeControl: false    
   });
 
   // The room marker, positioned at GG Brown
@@ -289,13 +291,13 @@ function initMap() {
 
   overlay.setMap(map);
 
-  const toggleButton = document.createElement("button");
+  const searchButton = document.createElement("button");
 
-  toggleButton.textContent = "Search";
-  toggleButton.classList.add("custom-map-control-button");
+  searchButton.textContent = "Search";
+  searchButton.classList.add("custom-map-control-button");
 
   // onClick return back to search screen (index.html)
-  toggleButton.addEventListener("click", () => {
+  searchButton.addEventListener("click", () => {
     window.location.replace('./index.html');
   });
 
@@ -368,7 +370,7 @@ function initMap() {
   });
 
 
-  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(toggleButton);
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById("search-box"));
   map.controls[google.maps.ControlPosition.TOP_RIGHT].push(restroomButton);
   map.controls[google.maps.ControlPosition.TOP_RIGHT].push(elevatorButton);
   map.controls[google.maps.ControlPosition.TOP_RIGHT].push(stairwayButton);

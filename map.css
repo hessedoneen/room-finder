@@ -14,7 +14,7 @@ body {
   color: #00354e;
 }
 
-.custom-map-control-button {
+button {
   background-color: #fff;
   border: 0;
   border-radius: 2px;
@@ -26,6 +26,34 @@ body {
   height: 40px;
   cursor: pointer;
 }
-.custom-map-control-button:hover {
+
+button:hover {
   background: #ebebeb;
+}
+
+#search-box {
+  display: flex;
+  box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+  flex-direction: row;
+  justify-content: left;
+  align-items: baseline;
+  border-radius: 5px;
+  background-color: #fff;
+  text-align: left;
+  margin: 10px;
+  height: 40px;
+}
+
+.search-bar {
+  position: relative;
+  border-radius: 5px;
+  fill: none;
+  height: 40px;
+  width: 150%;
+  background-color: #fff;
+  outline: none;
+}
+
+.search-icon {
+  padding: 10px;
 }
