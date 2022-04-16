@@ -83,6 +83,8 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
 function initMap() {
   // Get room coordinates
   const room_coordinates = getRoomCoordinates();
+  console.log("lat", room_coordinates['latitude']);
+  console.log("lng", room_coordinates['latitude']);
   const room_lat = parseFloat(room_coordinates['latitude']);
   const room_long = parseFloat(room_coordinates['longitude']);
   // room loc is center and starting point
