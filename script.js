@@ -99,7 +99,6 @@ function initMap() {
     }
     google.maps.event.addListener(marker, 'click', function() {
       map.setZoom(21);
-      map.setCenter(marker.getPosition());
     })
     return marker;
   }
@@ -112,6 +111,7 @@ function initMap() {
 
   // The room marker, positioned at GG Brown
   const room_marker = createMarker(room_loc, 'target room');
+  map.setCenter(room_marker.getPosition());
 
   // The user marker, positioned at GG Brown
   const user_marker = createMarker(room_loc, 'user location', {
