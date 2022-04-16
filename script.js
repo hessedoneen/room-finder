@@ -189,8 +189,24 @@ function initMap() {
   // Function to continuously update the user_marker
   let fit_zoom = true;
   trackLocation({
-    onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
+    onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => { //heading:hdng
       user_marker.setPosition({ lat, lng });
+
+      // //Set icon to face the correct direction
+      // console.log("lat,lng: ", lat, lng)
+      // console.log("heading: ", hdng); // hdng is null -- device problem?
+      // const head_icon = {
+      //   path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+      //   scale: 5,
+      //   fillColor: "#be983f",
+      //   fillOpacity: .70,
+      //   strokeColor: "#12455E",
+      //   strokeOpacity: 1,
+      //   strokeWeight: 2,
+      //   rotation: hdng
+      // }
+      // user_marker.setIcon(head_icon);
+
       if (fit_zoom) {
         const marker_bounds = new google.maps.LatLngBounds();
         marker_bounds.extend(room_marker.getPosition());
