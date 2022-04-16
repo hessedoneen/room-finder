@@ -27,8 +27,8 @@ function getRoomCoordinates() {
   localStorage.setItem("room_num", room_num);
 
   const coordinates = {
-    'latitude': room_data['latitude'],
-    'longitude': room_data['longitude']
+    'lat': room_data['lat'],
+    'lng': room_data['lng']
   };
 
   return coordinates;
@@ -83,8 +83,10 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
 function initMap() {
   // Get room coordinates
   const room_coordinates = getRoomCoordinates();
-  const room_lat = parseFloat(room_coordinates['latitude']);
-  const room_long = parseFloat(room_coordinates['longitude']);
+  console.log('lat before parse', room_coordinates['lat'])
+  console.log('lng before parse', room_coordinates['lng'])
+  const room_lat = parseFloat(room_coordinates['lat']);
+  const room_long = parseFloat(room_coordinates['lng']);
   // room loc is center and starting point
   const room_loc = { lat: room_lat, lng: room_long };
 
@@ -134,8 +136,8 @@ function initMap() {
     for (let i = 0; i < room_info.length; i++){
       console.log("room info", room_info[i]);
       let room_coor = {
-        lat: parseFloat(room_info[i]['latitude']),
-        lng: parseFloat(room_info[i]['longitude'])
+        lat: parseFloat(room_info[i]['lat']),
+        lng: parseFloat(room_info[i]['lng'])
       }
       new_marker = createMarker(room_coor,room_info[i]['room_number'],icon);
       new_marker.setVisible(false);
@@ -193,7 +195,7 @@ function initMap() {
   // Function to continuously update the user_marker
   let fit_zoom = true;
   trackLocation({
-    onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => { //heading:hdng
+    onSuccess: ({ coords: { lat: lat, lng: lng } }) => { //heading:hdng
       user_marker.setPosition({ lat, lng });
 
       // //Set icon to face the correct direction
