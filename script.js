@@ -112,6 +112,7 @@ function initMap() {
     mapId: '1d764dc13899b61e'
   });
 
+  console.log('room_loc', room_loc);
   // The room marker, positioned at GG Brown
   const room_marker = createMarker(room_loc, 'target room');
 
