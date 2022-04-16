@@ -16,12 +16,14 @@ function getRoomCoordinates() {
 
   // Get room data (error check whether the room exists)
   const room_data_all = JSON.parse(localStorage.getItem('rooms_data'));
+  console.log("room_data_all: ", room_data_all)
   if (!room_data_all.hasOwnProperty(room_num)) {
     alert("You entered an invalid room number");
     window.location.href = "index.html";
     return;
   }
   const room_data = room_data_all[room_num];
+  console.log("room_data: ", room_data)
 
   localStorage.setItem("building", building);
   localStorage.setItem("room_num", room_num);
