@@ -90,6 +90,7 @@ function initMap() {
 
   function createMarker(pos, title, icon=null) {
     console.log("position", pos);
+    console.log("title", title);
     var marker = new google.maps.Marker({
       position: pos,
       map: map,
