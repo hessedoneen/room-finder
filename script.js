@@ -16,14 +16,12 @@ function getRoomCoordinates() {
 
   // Get room data (error check whether the room exists)
   const room_data_all = JSON.parse(localStorage.getItem('rooms_data'));
-  console.log("room_data_all: ", room_data_all)
   if (!room_data_all.hasOwnProperty(room_num)) {
     alert("You entered an invalid room number");
     window.location.href = "index.html";
     return;
   }
   const room_data = room_data_all[room_num];
-  console.log("room_data: ", room_data)
 
   localStorage.setItem("building", building);
   localStorage.setItem("room_num", room_num);
@@ -85,16 +83,12 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
 function initMap() {
   // Get room coordinates
   const room_coordinates = getRoomCoordinates();
-  console.log('lat before parse', room_coordinates['lat'])
-  console.log('lng before parse', room_coordinates['lng'])
   const room_lat = parseFloat(room_coordinates['lat']);
   const room_long = parseFloat(room_coordinates['lng']);
   // room loc is center and starting point
   const room_loc = { lat: room_lat, lng: room_long };
 
   function createMarker(pos, title, icon=null) {
-    console.log("position", pos);
-    console.log("title", title);
     var marker = new google.maps.Marker({
       position: pos,
       map: map,
@@ -116,7 +110,6 @@ function initMap() {
     mapId: '1d764dc13899b61e'
   });
 
-  console.log('room_loc', room_loc);
   // The room marker, positioned at GG Brown
   const room_marker = createMarker(room_loc, 'target room');
 
@@ -136,7 +129,6 @@ function initMap() {
   function mark_all_rooms(room_info, icon) {
     markers = [];
     for (let i = 0; i < room_info.length; i++){
-      console.log("room info", room_info[i]);
       let room_coor = {
         lat: parseFloat(room_info[i]['lat']),
         lng: parseFloat(room_info[i]['lng'])
@@ -344,7 +336,6 @@ function initMap() {
 
   // onClick to show or unshow elevators
   elevatorButton.addEventListener("click", () => {
-    console.log(elevatorToggle);
     if (!elevatorToggle) {
       // Set all elevator markers visible
       setMapOnAll(elevators, true);
@@ -365,7 +356,6 @@ function initMap() {
 
   // onClick to show or unshow stairways
   stairwayButton.addEventListener("click", () => {
-    console.log(restroomToggle);
     if (!stairwayToggle) {
       // Set all restroom markers visible
       setMapOnAll(stairways, true);

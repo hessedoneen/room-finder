@@ -1,7 +1,7 @@
 
 #!/usr/bin/python
 # Nina, Amber, Alex, Kyle
-# Run via: python3 kmlparser.py mode kml-file-name > kml-file-name.csv
+# Run via: python3 kmlparser.py kml-file-name mode > kml-file-name.csv
 import sys
 from html.parser import HTMLParser
 
@@ -14,9 +14,9 @@ class ZMLParser(HTMLParser):
         self.mode = mode
         self.name = None
         if self.mode == 'rooms':
-            print("room_name,room_number,latitude,longitude")
+            print("room_name,room_number,lat,lng")
         else:
-            print("floor,latitude,longitude")
+            print("floor,lat,lng")
 
     def handle_starttag(self, tag, attrs):
         if tag == 'placemark':
@@ -34,7 +34,7 @@ class ZMLParser(HTMLParser):
             elif self._coordinates_found:
                 coordinates = data.strip().replace('0 ', '').split(',')
                 for i in range (0, len(coordinates) - 1, 2):
-                    print(f'{self.name},{coordinates[i + 1]},{coordinates[i]}')
+                    print(f'{self.name},{self.name},{coordinates[i + 1]},{coordinates[i]}')
                 self._coordinates_found = False
                 self._placemark_found = False
 
