@@ -120,8 +120,8 @@ function initMap() {
 
   // The user marker, positioned at GG Brown
   const user_marker = createMarker(room_loc, 'user location', {
-    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-    scale: 5,
+    path: google.maps.SymbolPath.CIRCLE,
+    scale: 10,
     fillColor: "#be983f",
     fillOpacity: .70,
     strokeColor: "#12455E",
