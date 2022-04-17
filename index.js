@@ -170,7 +170,6 @@ if (localStorage.getItem("rooms_data") !== null) {
 along the opts array as possible autocomplete values:*/
 autocomplete(document.getElementById("myInput"), opts);
 
-
 /* Set the width of the sidebar to 250px (show it) */
 function openNav() {
     document.getElementById("mySidepanel").style.width = "200px";

@@ -293,7 +293,7 @@ function initMap() {
 
   const searchButton = document.createElement("button");
 
-  searchButton.textContent = "Search";
+  searchButton.textContent = "Back";
   searchButton.classList.add("custom-map-control-button");
 
   // onClick return back to search screen (index.html)
@@ -313,7 +313,8 @@ function initMap() {
   const restroomButton = document.createElement("button");
   let restroomToggle = false;
 
-  restroomButton.textContent = "Restrooms";
+  restroomButton.innerHTML = '<img src="./restroom_icon.png" />';
+  // restroomButton.textContent = "Restrooms";
   restroomButton.classList.add("custom-map-control-button");
 
   // onClick to show or unshow restrooms
@@ -333,7 +334,8 @@ function initMap() {
   const elevatorButton = document.createElement("button");
   let elevatorToggle = false;
 
-  elevatorButton.textContent = "Elevators";
+  elevatorButton.innerHTML = '<img src="./elevator_icon.png" />';
+  // elevatorButton.textContent = "Elevators";
   elevatorButton.classList.add("custom-map-control-button");
 
   // onClick to show or unshow elevators
@@ -353,7 +355,8 @@ function initMap() {
   const stairwayButton = document.createElement("button");
   let stairwayToggle = false;
 
-  stairwayButton.textContent = "Stairways";
+  stairwayButton.innerHTML = '<img src="./stairway_icon.png" />';
+  // stairwayButton.textContent = "Stairways";
   stairwayButton.classList.add("custom-map-control-button");
 
   // onClick to show or unshow stairways
@@ -369,8 +372,8 @@ function initMap() {
     }
   });
 
-
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById("search-box"));
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(searchButton);
   map.controls[google.maps.ControlPosition.TOP_RIGHT].push(restroomButton);
   map.controls[google.maps.ControlPosition.TOP_RIGHT].push(elevatorButton);
   map.controls[google.maps.ControlPosition.TOP_RIGHT].push(stairwayButton);
